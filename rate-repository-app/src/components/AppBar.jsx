@@ -5,11 +5,12 @@ import theme from "./theme"
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: theme.colors.bg,
+    backgroundColor: theme.colors.primary,
     height: 100,
   }, text: {
     color: theme.colors.fg,
     paddingTop: 30,
+    paddingLeft: 10,
     fontSize: 20
   }
 });

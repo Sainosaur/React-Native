@@ -1,8 +1,16 @@
 
 const theme = {
     colors: {
-        bg: "#000000",
-        fg: "#BEBEBE"
+        bg: "#d9dede",
+        primary: "#000000",
+        light: "#A09985" ,
+        fg: "#ffffff"
+    }, card: {
+        backgroundColor:"#ffffff",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 30,
+        padding: 15
     }
 }
 

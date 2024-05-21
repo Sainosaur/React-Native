@@ -1,9 +1,55 @@
-import { FlatList, View, StyleSheet, Text } from 'react-native';
+import { FlatList, View, StyleSheet, Text, Image } from 'react-native';
+import theme from './theme'
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+  logo: {
+    display: "flex",
+    width: 90,
+    height: 90,
+    borderRadius: 5,
+    alignItems: "flex-start",
+    paddingRight: 20
+  }, card: {
+    ...theme.card
+  },
+  content: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  }, heading: {
+    fontSize: 25,
+    fontStyle: "italic",
+    paddingRight: 70
+  }, text: {
+    fontSize: 15,
+    color: theme.colors.light,
+    paddingRight: 70,
+  }, language: {
+    display: "flex",
+    width: 90,
+    backgroundColor: theme.colors.primary,
+    color: "white",
+    borderRadius: 5,
+    padding: 5,
+  }, stat: {
+    display: "flex",
+    alignItems:"center",
+    flexDirection: "column",
+  }, number: {
+    fontSize: 30
+  }, statText: {
+    color: theme.colors.light,
+    fontSize: 15
+  }, statContent: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  }, info: {
+    paddingLeft: 20
+  }
 });
 
 const repositories = [
@@ -55,16 +101,32 @@ const repositories = [
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
+const RenderStat = ({text, number}) => {
+    return (
+        <View style={styles.stat}>
+            <Text style={styles.number}> {number > 1000 ? Math.round(number / 100) / 10 + "K" : number}</Text>
+            <Text style={styles.statText}>{text}</Text>
+        </View>
+    )
+}
+
 const RepositoryItem = ({item}) => {
     return (
-        <View>
-            <Text>Full Name: {item.fullName}</Text>
-            <Text>Description: {item.description}</Text>
-            <Text>Lanugage: {item.language}</Text>
-            <Text>Forks: {item.forksCount}</Text>
-            <Text>Stargazers: {item.stargazersCount}</Text>
-            <Text>Rating: {item.ratingAverage}</Text>
-            <Text>Reviews: {item.reviewCount}</Text>
+        <View style={styles.card}>
+            <View style={styles.content}>
+                <Image style={styles.logo} source={{uri: item.ownerAvatarUrl}} />
+                    <View style={styles.info} >
+                        <Text style={styles.heading}>{item.fullName}</Text>
+                        <Text style={styles.text}>{item.description}</Text>
+                        <Text style={styles.language}>{item.language}</Text>
+                    </View>
+            </View>
+            <View style={styles.statContent}>
+                <RenderStat text="Stars" number={item.stargazersCount}/>
+                <RenderStat text="Forks" number={item.forksCount} />
+                <RenderStat text="Reviews" number={item.reviewCount} />
+                <RenderStat text="Rating" number={item.ratingAverage} />
+            </View>
         </View>
     )
 }
