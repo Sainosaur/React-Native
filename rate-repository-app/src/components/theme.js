@@ -4,7 +4,7 @@ const theme = {
         bg: "#d9dede",
         primary: "#000000",
         light: "#A09985",
-        fg: "#fffffff"
+        fg: "#ffffff"
     }, card: {
         backgroundColor:"#ffffff",
         display: "flex",
