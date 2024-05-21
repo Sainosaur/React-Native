@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Link } from "react-router-native"
 
@@ -32,10 +32,10 @@ const AppBarTab = ({name, address}) => {
 
 const AppBar = () => {
   return (
-    <View style={styles.container}>
+      <ScrollView style={styles.container} horizontal>
         <AppBarTab name="Sign In" address="/signin" />
         <AppBarTab name="Repositories" address="/"/>
-    </View>
+      </ScrollView>
   )
 };
 
