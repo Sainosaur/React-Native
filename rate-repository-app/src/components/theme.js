@@ -3,8 +3,8 @@ const theme = {
     colors: {
         bg: "#d9dede",
         primary: "#000000",
-        light: "#A09985" ,
-        fg: "#ffffff"
+        light: "#A09985",
+        fg: "#fffffff"
     }, card: {
         backgroundColor:"#ffffff",
         display: "flex",

@@ -1,5 +1,6 @@
-import { FlatList, View, StyleSheet, Text, Image } from 'react-native';
+import { FlatList, View, StyleSheet, Image } from 'react-native';
 import theme from './theme'
+import Text from "./Text"
 
 const styles = StyleSheet.create({
   separator: {
@@ -14,35 +15,14 @@ const styles = StyleSheet.create({
     paddingRight: 20
   }, card: {
     ...theme.card
-  },
-  content: {
+  }, content: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start"
-  }, heading: {
-    fontSize: 25,
-    fontStyle: "italic",
-    paddingRight: 70
-  }, text: {
-    fontSize: 15,
-    color: theme.colors.light,
-    paddingRight: 70,
-  }, language: {
-    display: "flex",
-    width: 90,
-    backgroundColor: theme.colors.primary,
-    color: "white",
-    borderRadius: 5,
-    padding: 5,
   }, stat: {
     display: "flex",
     alignItems:"center",
     flexDirection: "column",
-  }, number: {
-    fontSize: 30
-  }, statText: {
-    color: theme.colors.light,
-    fontSize: 15
   }, statContent: {
     display: "flex",
     flexDirection: "row",
@@ -104,8 +84,8 @@ const ItemSeparator = () => <View style={styles.separator} />;
 const RenderStat = ({text, number}) => {
     return (
         <View style={styles.stat}>
-            <Text style={styles.number}> {number > 1000 ? Math.round(number / 100) / 10 + "K" : number}</Text>
-            <Text style={styles.statText}>{text}</Text>
+            <Text heading> {number > 1000 ? Math.round(number / 100) / 10 + "K" : number}</Text>
+            <Text light>{text}</Text>
         </View>
     )
 }
@@ -116,9 +96,9 @@ const RepositoryItem = ({item}) => {
             <View style={styles.content}>
                 <Image style={styles.logo} source={{uri: item.ownerAvatarUrl}} />
                     <View style={styles.info} >
-                        <Text style={styles.heading}>{item.fullName}</Text>
-                        <Text style={styles.text}>{item.description}</Text>
-                        <Text style={styles.language}>{item.language}</Text>
+                        <Text heading>{item.fullName}</Text>
+                        <Text light>{item.description}</Text>
+                        <Text chip>{item.language}</Text>
                     </View>
             </View>
             <View style={styles.statContent}>
