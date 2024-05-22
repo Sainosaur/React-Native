@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         borderWidth: 2,
         borderRadius: 5,
-        borderColor: "gray",
         backgroundColor: "white"
     }, button: {
         display: "flex",
@@ -22,8 +21,12 @@ const styles = StyleSheet.create({
     }
 })
 
-export const TextInput = (props) => {
-    return <NativeInput style={styles.textinput}  {...props} />
+export const TextInput = (props) => {   
+    const InputStyle = {
+        ...styles.textinput,
+        borderColor: props.error ? "red" : "gray"
+    }
+    return <NativeInput style={InputStyle}  {...props} />
 }
 
 export const Button = (props) => {

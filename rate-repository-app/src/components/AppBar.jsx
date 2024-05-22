@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { StyleSheet, Pressable, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Link } from "react-router-native"
 

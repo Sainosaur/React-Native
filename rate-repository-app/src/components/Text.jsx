@@ -1,7 +1,7 @@
 import { Text as NativeText, StyleSheet } from "react-native"
 import theme from './theme'
 
-const Text = ({ light, heading, chip, center, ...props}) => {
+const Text = ({ light, heading, chip, center, error, ...props}) => {
     const styles = StyleSheet.create({
         text: {
             textAlign: center ? "center" : null,
@@ -17,9 +17,20 @@ const Text = ({ light, heading, chip, center, ...props}) => {
             color: "white",
             borderRadius: 5,
             padding: 5,
+          }, error: {
+            fontWeight: "500",
+            color: "red"
           }
     })
-    return <NativeText style={chip ? styles.chip : styles.text} {...props} />;
+    let Style;
+    if (chip) {
+      Style = styles.chip
+    } else if (error) {
+      Style = styles.error
+    } else {
+      Style = styles.text
+    }
+    return <NativeText style={Style} {...props} />;
 }
 
 export default Text

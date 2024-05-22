@@ -2,6 +2,16 @@ import { useFormik } from "formik"
 import { View, StyleSheet, Pressable } from 'react-native'
 import { TextInput, Button } from "./Input"
 import Text from "./Text";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+    username: yup
+        .string()
+        .required("Username is required"),
+    password: yup
+        .string()
+        .required("Password is required")
+})
 
 const initialValues = {
     username: "",
@@ -15,7 +25,7 @@ const styles = StyleSheet.create({
         padding: 15,
         paddingBottom: "150%"
     }, seperator: {
-        height: 10
+        height: 5
     }, largeSeperator: {
         height: 200
     }
@@ -33,6 +43,7 @@ const LargeSeperator = () => {
 const SignIn = () => {
     const formik = useFormik({
         initialValues,
+        validationSchema,
         onSubmit: (values) => console.log(values.username, values.password)
     })
 
@@ -40,9 +51,11 @@ const SignIn = () => {
         <View style={styles.form}>
             <Text heading center>Sign In</Text>
             <LargeSeperator />
-            <TextInput value={formik.values.username} placeholder="Username" onChangeText={formik.handleChange("username")} />
+            <TextInput value={formik.values.username} onBlur={() =>formik.setFieldTouched("username", true)} placeholder="Username" onChangeText={formik.handleChange("username")} error={formik.errors.username && formik.touched.username ? true : null}  />
+            {formik.touched.username && formik.errors.username ? <Text error >{formik.errors.username}</Text> : null}
             <Seperator />
-            <TextInput secureTextEntry value={formik.values.password} placeholder="Password" onChangeText={formik.handleChange("password")}/>
+            <TextInput secureTextEntry value={formik.values.password} onBlur={() =>formik.setFieldTouched("password", true)} placeholder="Password" onChangeText={formik.handleChange("password")} error={formik.errors.password && formik.touched.password ? true : null}/>
+            {formik.touched.password && formik.errors.password ? <Text error >{formik.errors.password}</Text> : null}
             <Seperator />
             <Pressable>
                 <Button chip onPress={() => formik.handleSubmit()}>Sign In</Button>
