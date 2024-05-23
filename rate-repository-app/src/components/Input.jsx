@@ -4,12 +4,14 @@ import theme from './theme';
 const styles = StyleSheet.create({
     textinput:{
         padding: 15,
+        fontFamily: theme.font.fontFamily,
         fontSize: 15,
         borderWidth: 2,
         borderRadius: 5,
         backgroundColor: "white"
     }, button: {
         display: "flex",
+        fontFamily: theme.font.fontFamily,
         textAlign: "center",
         fontSize: 20,
         backgroundColor: theme.colors.primary,

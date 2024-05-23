@@ -8,11 +8,13 @@ import theme from "./theme"
 const styles = StyleSheet.create({
   container: {
     display: "flex",
+    fontFamily: theme.font.fontFamily,
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.primary,
     flexDirection: "row",
     height: 100,
   }, text: {
+    fontFamily: theme.font.fontFamily,
     color: theme.colors.fg,
     paddingTop: 30,
     paddingLeft: 10,
