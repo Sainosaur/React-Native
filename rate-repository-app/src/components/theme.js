@@ -11,7 +11,11 @@ const theme = {
 
     colors: {
         bg: "#d9dede",
-        primary: "#000000",
+        primary: Platform.select({
+            android: "green",
+            ios: "teal",
+            default: '#0000000'
+        }),
         light: "#A09985",
         fg: "#ffffff"
     }, card: {

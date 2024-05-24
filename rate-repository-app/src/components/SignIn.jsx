@@ -1,7 +1,7 @@
 import { useFormik } from "formik"
 import { View, StyleSheet, Pressable } from 'react-native'
-import { TextInput, Button } from "./Input"
-import Text from "./Text";
+import { TextInput, Button } from "./CustomComponents/Input"
+import Text from "./CustomComponents/Text";
 import * as yup from "yup";
 
 const validationSchema = yup.object({

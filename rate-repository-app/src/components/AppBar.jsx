@@ -2,7 +2,7 @@ import { StyleSheet, Pressable, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Link } from "react-router-native"
 
-import Text from './Text'
+import Text from './CustomComponents/Text'
 import theme from "./theme"
 
 const styles = StyleSheet.create({
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.primary,
     flexDirection: "row",
-    height: 100,
+    height: 125,
   }, text: {
     fontFamily: theme.font.fontFamily,
     color: theme.colors.fg,
