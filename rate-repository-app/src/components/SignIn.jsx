@@ -2,6 +2,9 @@ import { useFormik } from "formik"
 import { View, StyleSheet, Pressable } from 'react-native'
 import { TextInput, Button } from "./CustomComponents/Input"
 import Text from "./CustomComponents/Text";
+
+import useSignIn from "../hooks/useSignIn"
+import AuthStorage from "../utils/authStorage"
 import * as yup from "yup";
 
 const validationSchema = yup.object({
@@ -41,10 +44,19 @@ const LargeSeperator = () => {
 
 
 const SignIn = () => {
+    const [signIn, result] = useSignIn()
+    const TokenStore = new AuthStorage()
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: (values) => console.log(values.username, values.password)
+        onSubmit: async (values) => {
+            try {
+                const { data } = await signIn(values)
+                await TokenStore.setAccessToken(data.authenticate.accessToken)
+            } catch (e) {
+                console.log(e)
+            }
+        }
     })
 
     return (
