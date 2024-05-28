@@ -9,7 +9,7 @@ import createApolloClient from './src/utils/ApolloClient'
 const authStorage = new authStorageConstructor()
 
 export default function App() {
-  const client = createApolloClient()
+  const client = createApolloClient(authStorage)
 
   return (
     <ApolloProvider client={client} >

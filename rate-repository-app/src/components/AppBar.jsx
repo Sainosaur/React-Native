@@ -2,6 +2,12 @@ import { StyleSheet, Pressable, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Link } from "react-router-native"
 
+import { useQuery } from "@apollo/client"
+import useAuthStorage from "../hooks/useAuthStorage"
+import { useApolloClient } from "@apollo/client"
+
+import { ME } from "../graphql/queries"
+
 import Text from './CustomComponents/Text'
 import theme from "./theme"
 
@@ -32,13 +38,39 @@ const AppBarTab = ({name, address}) => {
     )
 }
 
-const AppBar = () => {
+const SignOutTab = () => {
+  const authStorage = useAuthStorage()
+  const ApolloClient = useApolloClient()
+
+  const signOut = () => {
+    authStorage.removeAccessToken()
+    ApolloClient.resetStore()
+
+  }
+
   return (
-      <ScrollView style={styles.container} horizontal>
-        <AppBarTab name="Sign In" address="/signin" />
-        <AppBarTab name="Repositories" address="/"/>
-      </ScrollView>
+    <Pressable>
+      <Text onPress={() => signOut()} style={styles.text}>Sign Out</Text>
+    </Pressable>
   )
+}
+
+const AppBar = () => {
+  const { data } = useQuery(ME)
+  if (data) {
+  return (
+    <ScrollView style={styles.container} horizontal>
+      {data.me ? <SignOutTab /> : <AppBarTab name="Sign In" address="/signin" />}
+
+      <AppBarTab name="Repositories" address="/"/>
+    </ScrollView>
+    )
+  } else {
+    return (
+      <Text>Loading User Data...</Text>
+    )
+  }
+
 };
 
 export default AppBar;

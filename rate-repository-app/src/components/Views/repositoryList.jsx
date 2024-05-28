@@ -1,7 +1,7 @@
 import { FlatList, View, StyleSheet, Image } from 'react-native';
-import theme from './theme'
-import Text from "./CustomComponents/Text"
-import useRepositories from '../hooks/useRepositories'
+import theme from '../theme'
+import Text from "../CustomComponents/Text"
+import useRepositories from '../../hooks/useRepositories'
 
 const styles = StyleSheet.create({
   separator: {

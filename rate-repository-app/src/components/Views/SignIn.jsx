@@ -1,9 +1,9 @@
 import { useFormik } from "formik"
 import { View, StyleSheet, Pressable } from 'react-native'
-import { TextInput, Button } from "./CustomComponents/Input"
-import Text from "./CustomComponents/Text";
+import { TextInput, Button } from "../CustomComponents/Input"
+import Text from "../CustomComponents/Text";
 
-import useSignIn from "../hooks/useSignIn"
+import useSignIn from "../../hooks/useSignIn"
 import { useNavigate } from "react-router-native"
 import { useState } from "react" 
 

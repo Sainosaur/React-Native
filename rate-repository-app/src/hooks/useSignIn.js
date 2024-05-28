@@ -5,8 +5,6 @@ import { useMutation } from '@apollo/client'
 import useAuthStorage from "../hooks/useAuthStorage"
 import { useApolloClient } from "@apollo/client"
 
-import authStorageContext from "../utils/authStorageContext"
-
 const useSignIn = () => {
     const [mutate, result] = useMutation(AUTHENTICATE_USER);
     const authStorage = useAuthStorage()

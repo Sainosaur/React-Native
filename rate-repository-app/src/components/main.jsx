@@ -1,11 +1,11 @@
 import { View, StyleSheet } from "react-native";
-import RepositoryList from './repositoryList';
+import RepositoryList from './Views/repositoryList';
 import { StatusBar } from "expo-status-bar";
 
 
 import AppBar from "./AppBar";
 import theme from "./theme"
-import SignIn from './SignIn'
+import SignIn from './Views/SignIn'
 
 import { Routes, Route, Navigate } from 'react-router-native';
 
