@@ -4,7 +4,9 @@ import { TextInput, Button } from "./CustomComponents/Input"
 import Text from "./CustomComponents/Text";
 
 import useSignIn from "../hooks/useSignIn"
-import AuthStorage from "../utils/authStorage"
+import { useNavigate } from "react-router-native"
+import { useState } from "react" 
+
 import * as yup from "yup";
 
 const validationSchema = yup.object({
@@ -44,17 +46,19 @@ const LargeSeperator = () => {
 
 
 const SignIn = () => {
-    const [signIn, result] = useSignIn()
-    const TokenStore = new AuthStorage()
+    const [signIn] = useSignIn()
+    const navigate = useNavigate()
+    const [error, setError] = useState("")
+
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
             try {
-                const { data } = await signIn(values)
-                await TokenStore.setAccessToken(data.authenticate.accessToken)
-            } catch (e) {
-                console.log(e)
+                await signIn(values)
+                navigate('/')
+            } catch(error) {
+                setError(error.message)
             }
         }
     })
@@ -68,6 +72,8 @@ const SignIn = () => {
             <Seperator />
             <TextInput secureTextEntry value={formik.values.password} onBlur={() =>formik.setFieldTouched("password", true)} placeholder="Password" onChangeText={formik.handleChange("password")} error={formik.errors.password && formik.touched.password ? true : null}/>
             {formik.touched.password && formik.errors.password ? <Text error >{formik.errors.password}</Text> : null}
+            <Seperator />
+            <Text error >{error}</Text>
             <Seperator />
             <Pressable>
                 <Button chip onPress={() => formik.handleSubmit()}>Sign In</Button>
