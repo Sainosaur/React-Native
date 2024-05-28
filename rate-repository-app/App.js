@@ -1,7 +1,7 @@
 import Main from './src/components/main';
 import { NativeRouter } from 'react-router-native';
 import { ApolloProvider } from "@apollo/client"
-import authStorageContext from "./src/utils/authStorageContext"
+import authStorageContext from "./src/contexts/authStorageContext"
 import authStorageConstructor from "./src/utils/authStorage"
 
 import createApolloClient from './src/utils/ApolloClient'

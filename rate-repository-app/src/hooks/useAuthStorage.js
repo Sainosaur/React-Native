@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import authStorageContext from "../utils/authStorageContext"
+import authStorageContext from "../contexts/authStorageContext"
 
 const useAuthStorage = () => {
     return useContext(authStorageContext)
