@@ -45,22 +45,12 @@ const LargeSeperator = () => {
 }
 
 
-const SignIn = () => {
-    const [signIn] = useSignIn()
-    const navigate = useNavigate()
-    const [error, setError] = useState("")
+export const RenderSignIn = ({onSubmit, error}) => {
 
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: async (values) => {
-            try {
-                await signIn(values)
-                navigate('/')
-            } catch(error) {
-                setError(error.message)
-            }
-        }
+        onSubmit
     })
 
     return (
@@ -76,9 +66,28 @@ const SignIn = () => {
             <Text error >{error}</Text>
             <Seperator />
             <Pressable>
-                <Button chip onPress={() => formik.handleSubmit()}>Sign In</Button>
+                <Button chip onPress={() => formik.handleSubmit()} testID="SubmitBtn" >Sign In</Button>
             </Pressable>
         </View>
+    )
+}
+
+const SignIn = () => {    
+    const [signIn] = useSignIn()
+    const navigate = useNavigate()
+    const [error, setError] = useState("")
+
+    const onSubmit = async (values) => {
+        try {
+            await signIn(values)
+            navigate('/')
+        } catch (error) {
+            setError(error.message)
+        }
+    }
+    
+    return (
+        <RenderSignIn onSubmit={onSubmit} error={error} />
     )
 }
 

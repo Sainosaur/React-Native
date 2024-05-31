@@ -65,12 +65,16 @@
     "@babel/core": "^7.16.7",
     "@babel/eslint-parser": "^7.16.5",
     "@babel/preset-env": "^7.8.4",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^12.5.1",
     "eslint": "^8.6.0",
-    "eslint-plugin-jest": "^25.3.4",
+    "eslint-plugin-jest": "^25.7.0",
     "husky": "^4.2.3",
-    "jest": "^27.4.7",
+    "jest": "^27.5.1",
+    "jest-expo": "^51.0.2",
     "lint-staged": "^10.0.7",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "react-test-renderer": "^18.2.0"
   }
 }

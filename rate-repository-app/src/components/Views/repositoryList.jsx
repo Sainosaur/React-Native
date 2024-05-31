@@ -47,7 +47,7 @@ const RenderStat = ({text, number}) => {
 
 const RepositoryItem = ({item}) => {
     return (
-        <View style={styles.card}>
+        <View style={styles.card} testID="RepositoryItem">
             <View style={styles.content}>
                 <Image style={styles.logo} source={{uri: item.ownerAvatarUrl}} />
                     <View style={styles.info} >
@@ -66,8 +66,7 @@ const RepositoryItem = ({item}) => {
     )
 }
 
-const RepositoryList = () => { 
-  const { repositories } = useRepositories()
+export const RenderRepositoryList = ({ repositories }) => { 
   const renderData = repositories ? repositories.edges.map((edge) => edge.node) : null
   if (renderData) {
     return (
@@ -85,5 +84,13 @@ const RepositoryList = () => {
     )
   }
 };
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories()
+  return (
+    <RenderRepositoryList repositories={ repositories }/>
+  )
+}
+
 
 export default RepositoryList;
