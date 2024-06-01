@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   }, text: {
     fontFamily: theme.font.fontFamily,
     color: theme.colors.fg,
+    fontWeight: "bold" ,
     paddingTop: 30,
     paddingLeft: 10,
     fontSize: 20

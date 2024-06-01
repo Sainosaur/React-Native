@@ -1,7 +1,11 @@
-import { FlatList, View, StyleSheet, Image } from 'react-native';
+import { FlatList, View, StyleSheet, Image, Pressable } from 'react-native';
 import theme from '../theme'
 import Text from "../CustomComponents/Text"
 import useRepositories from '../../hooks/useRepositories'
+
+import * as Linking from "expo-linking"
+
+import { useNavigate } from "react-router-native"
 
 const styles = StyleSheet.create({
   separator: {
@@ -45,9 +49,11 @@ const RenderStat = ({text, number}) => {
     )
 }
 
-const RepositoryItem = ({item}) => {
+export const RepositoryItem = ({item, github}) => {
+  const navigate = useNavigate()
     return (
-        <View style={styles.card} testID="RepositoryItem">
+      <Pressable onPress={github ? null : () => navigate(`/repositories/${item.id}`)} >
+          <View style={styles.card} testID="RepositoryItem">
             <View style={styles.content}>
                 <Image style={styles.logo} source={{uri: item.ownerAvatarUrl}} />
                     <View style={styles.info} >
@@ -62,7 +68,10 @@ const RepositoryItem = ({item}) => {
                 <RenderStat text="Reviews" number={item.reviewCount} />
                 <RenderStat text="Rating" number={item.ratingAverage} />
             </View>
+            {github ? <Pressable onPress={() => Linking.openURL(item.url)}><Text button >View on Github</Text></Pressable> : null}
         </View>
+      </Pressable>
+
     )
 }
 
