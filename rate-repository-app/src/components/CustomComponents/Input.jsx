@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
         color: theme.colors.fg,
         fontWeight: "500",
         padding: 15,
-        borderRadius: 15
+        borderRadius: 20,
+        overflow: "hidden"
 
     }
 })

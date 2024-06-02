@@ -1,4 +1,4 @@
-import { StyleSheet, Pressable, ScrollView } from 'react-native';
+import { StyleSheet, Pressable, ScrollView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { Link } from "react-router-native"
 
@@ -18,7 +18,10 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.primary,
     flexDirection: "row",
-    height: 125,
+    height: Platform.select({
+      android: 110,
+      ios: 130
+    }),
   }, text: {
     fontFamily: theme.font.fontFamily,
     color: theme.colors.fg,

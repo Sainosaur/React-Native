@@ -1,6 +1,8 @@
 import { FlatList, View, StyleSheet, Image, Pressable } from 'react-native';
 import theme from '../theme'
 import Text from "../CustomComponents/Text"
+import { Button } from "../CustomComponents/Input"
+
 import useRepositories from '../../hooks/useRepositories'
 
 import * as Linking from "expo-linking"
@@ -35,6 +37,8 @@ const styles = StyleSheet.create({
     justifySelf: "center"
   }, info: {
     paddingLeft: 20
+  }, largeSeparator: {
+    height: 25
   }
 });
 
@@ -68,7 +72,8 @@ export const RepositoryItem = ({item, github}) => {
                 <RenderStat text="Reviews" number={item.reviewCount} />
                 <RenderStat text="Rating" number={item.ratingAverage} />
             </View>
-            {github ? <Pressable onPress={() => Linking.openURL(item.url)}><Text button >View on Github</Text></Pressable> : null}
+            <ItemSeparator />
+            {github ? <Pressable onPress={() => Linking.openURL(item.url)}><Button chip >View on Github</Button></Pressable> : null}
         </View>
       </Pressable>
 
@@ -79,9 +84,11 @@ export const RenderRepositoryList = ({ repositories }) => {
   const renderData = repositories ? repositories.edges.map((edge) => edge.node) : null
   if (renderData) {
     return (
-      <FlatList
+        <FlatList
         data={renderData}
+        ListHeaderComponent={() => <ItemSeparator />}
         ItemSeparatorComponent={ItemSeparator}
+        ListFooterComponent={() => <View style={styles.largeSeparator} />}
         renderItem={({item}) => <RepositoryItem item={item}/>}
       />
     );

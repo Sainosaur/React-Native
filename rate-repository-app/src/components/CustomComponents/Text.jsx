@@ -1,7 +1,7 @@
 import { Text as NativeText, StyleSheet} from "react-native"
 import theme from '../theme'
 
-const Text = ({ light, heading, chip, center, error, button, ...props}) => {
+const Text = ({ light, heading, chip, center, error, ...props}) => {
     const styles = StyleSheet.create({
         text: {
             textAlign: center ? "center" : null,
@@ -18,19 +18,12 @@ const Text = ({ light, heading, chip, center, error, button, ...props}) => {
             backgroundColor: theme.colors.primary,
             color: "white",
             borderRadius: 5,
+            overflow: "hidden",
             padding: 5,
           }, error: {
             fontFamily: theme.font.fontFamily,
             fontWeight: "500",
             color: "red"
-          }, button: {
-            textAlign: "center",
-            backgroundColor: theme.colors.primary,
-            fontSize: 20,
-            fontWeight: "500" ,
-            padding: 15,
-            borderRadius: 50,
-            color: theme.colors.fg
           }
     })
     let Style;
@@ -38,8 +31,6 @@ const Text = ({ light, heading, chip, center, error, button, ...props}) => {
       Style = styles.chip
     } else if (error) {
       Style = styles.error
-    } else if (button) {
-      Style = styles.button
     } else {
       Style = styles.text
     }
