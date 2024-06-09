@@ -8,6 +8,7 @@ import theme from "./theme"
 import SignIn from './Views/SignIn'
 import Repository from "../components/Views/Repository"
 import CreateReview from "../components/Views/CreateReview"
+import CreateUser from "./Views/CreateUser";
 
 import { Routes, Route, Navigate } from 'react-router-native';
 
@@ -28,6 +29,7 @@ const Main = () => {
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/repositories/:repoID" element={<Repository /> } />
                 <Route path="/create" element={<CreateReview />} />
+                <Route path="/signup" element={<CreateUser />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <StatusBar style="light"/>

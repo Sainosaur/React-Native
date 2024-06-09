@@ -65,6 +65,7 @@ const AppBar = () => {
   return (
     <ScrollView style={styles.container} horizontal>
       {data.me ? <SignOutTab /> : <AppBarTab name="Sign In" address="/signin" />}
+      {data.me ? null : <AppBarTab name="Sign Up" address="/signup" />}
       <AppBarTab name="Repositories" address="/"/>
       {data.me ? <AppBarTab name="Review" address="/create" /> : null}
     </ScrollView>

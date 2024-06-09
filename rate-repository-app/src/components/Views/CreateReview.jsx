@@ -10,13 +10,20 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 const reviewSchema = yup.object({
-    username: yup.string().required("Owner's name  is a required field"),
-    RepoName: yup.string().required("Repository Name is a required field"),
-    Rating: yup.number("Rating must be a number1")
-    .min(0, "Rating must be above 0")
-    .max(100, "Rating must be less than 100")
-    .required("Rating is a required field"),
-    ReviewText: yup.string().nullable()
+    username: yup
+        .string()
+        .required("Owner's name  is a required field"),
+    RepoName: yup
+        .string()
+        .required("Repository Name is a required field"),
+    Rating: yup
+        .number("Rating must be a number1")
+        .min(0, "Rating must be above 0")
+        .max(100, "Rating must be less than 100")
+        .required("Rating is a required field"),
+    ReviewText: yup
+        .string()
+        .nullable()
 })
 
 const initialValues = {
@@ -45,11 +52,13 @@ const ItemSeperator = () => {
 }
 
 const RenderCreateReview = ({ onSubmit }) => {
+
     const formik = useFormik({
         initialValues,
         validationSchema: reviewSchema,
         onSubmit
     })
+
     return (
         <View style={styles.main}>
             <Text heading center>Create a Review</Text>
@@ -78,7 +87,7 @@ const CreateReview = () => {
 
     const onSubmit = async (values) => {
         try {
-            const { data } = await mutate({
+            await mutate({
                 variables: {
                     review: {
                         ownerName: values.username,
