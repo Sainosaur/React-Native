@@ -80,7 +80,7 @@ const Repository = () => {
     const { data } = useQuery(GET_SPECIFIC_REPOSITORY, {
         variables: {
             id: params.repoID
-        }
+        }, fetchPolicy: "cache-and-network"
     })
     if (data) {
         const item = data.repository

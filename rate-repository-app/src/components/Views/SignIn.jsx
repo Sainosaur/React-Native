@@ -57,10 +57,10 @@ export const RenderSignIn = ({onSubmit, error}) => {
         <View style={styles.form}>
             <Text heading center>Sign In</Text>
             <LargeSeperator />
-            <TextInput value={formik.values.username} onBlur={() =>formik.setFieldTouched("username", true)} placeholder="Username" onChangeText={formik.handleChange("username")} error={formik.errors.username && formik.touched.username ? true : null}  />
+            <TextInput value={formik.values.username} onBlur={() =>formik.setFieldTouched("username", true)} placeholder="Username" onChangeText={formik.handleChange("username")} error={formik.errors.username && formik.touched.username}  />
             {formik.touched.username && formik.errors.username ? <Text error >{formik.errors.username}</Text> : null}
             <Seperator />
-            <TextInput secureTextEntry value={formik.values.password} onBlur={() =>formik.setFieldTouched("password", true)} placeholder="Password" onChangeText={formik.handleChange("password")} error={formik.errors.password && formik.touched.password ? true : null}/>
+            <TextInput secureTextEntry value={formik.values.password} onBlur={() =>formik.setFieldTouched("password", true)} placeholder="Password" onChangeText={formik.handleChange("password")} error={formik.errors.password && formik.touched.password}/>
             {formik.touched.password && formik.errors.password ? <Text error >{formik.errors.password}</Text> : null}
             <Seperator />
             <Text error >{error}</Text>
@@ -85,7 +85,7 @@ const SignIn = () => {
             setError(error.message)
         }
     }
-    
+
     return (
         <RenderSignIn onSubmit={onSubmit} error={error} />
     )
