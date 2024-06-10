@@ -1,13 +1,14 @@
-import { FlatList, View, StyleSheet, Image, Pressable } from 'react-native';
+import { FlatList, View, StyleSheet, Image, Pressable, Modal, Platform } from 'react-native';
 import theme from '../theme'
 import Text from "../CustomComponents/Text"
 import { Button } from "../CustomComponents/Input"
+import { Picker } from '@react-native-picker/picker';
 
 import useRepositories from '../../hooks/useRepositories'
+import { useNavigate } from "react-router-native"
+import { useState } from "react"
 
 import * as Linking from "expo-linking"
-
-import { useNavigate } from "react-router-native"
 
 const styles = StyleSheet.create({
   separator: {
@@ -39,8 +40,12 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   }, largeSeparator: {
     height: 25
+  }, modal: {
+    width: 25,
+    height: 70
   }
 });
+
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
@@ -80,13 +85,61 @@ export const RepositoryItem = ({item, github}) => {
     )
 }
 
-export const RenderRepositoryList = ({ repositories }) => { 
+const labels = {
+  LatestRepo: "Latest Repositories",
+  HighRepo: "Highest Rated Repositories",
+  LowRepo: "Lowest Rated Repositories"
+}
+
+const Header = ({ sortMethod, setSortMethod }) => {
+  return (
+    <Picker
+    selectedValue={sortMethod}
+    onValueChange={(value) => setSortMethod(value)}
+    >
+      <Picker.Item label={labels.LatestRepo} value="LatestRepo" />
+      <Picker.Item label={labels.HighRepo} value="HighRepo"/>
+      <Picker.Item label={labels.LowRepo} value="LowRepo" />
+    </Picker>
+  )
+}
+
+const IOSHeader = ({ sortMethod, setSortMethod }) => {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <View>
+      <Text style={styles.card} onPress={() => setOpen(true)}>
+        Sort By: {labels[sortMethod]}
+      </Text>
+      <ItemSeparator />
+      <Modal
+      animationType="slide"
+      visible={open}
+      presentationStyle="formSheet"
+      onRequestClose={() => setOpen(false)}
+      >
+        <View style={styles.card}>
+          <Text heading>Sort By:</Text>
+        </View>
+        <Header sortMethod={sortMethod} setSortMethod={setSortMethod} />
+      </Modal>
+    </View>
+
+  )
+}
+
+export const RenderRepositoryList = ({ repositories, sortMethod, setSortMethod }) => { 
   const renderData = repositories ? repositories.edges.map((edge) => edge.node) : null
+
   if (renderData) {
     return (
         <FlatList
         data={renderData}
-        ListHeaderComponent={() => <ItemSeparator />}
+        ListHeaderComponent={() => Platform.select({
+          android: <Header sortMethod={sortMethod} setSortMethod={setSortMethod} />,
+          ios: <IOSHeader sortMethod={sortMethod} setSortMethod={setSortMethod} />
+        })}
         ItemSeparatorComponent={ItemSeparator}
         ListFooterComponent={() => <View style={styles.largeSeparator} />}
         renderItem={({item}) => <RepositoryItem item={item}/>}
@@ -102,9 +155,12 @@ export const RenderRepositoryList = ({ repositories }) => {
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories()
+  const [ sortMethod, setSortMethod ] = useState("LatestRepo")
+
+  const { repositories } = useRepositories(sortMethod)
+
   return (
-    <RenderRepositoryList repositories={ repositories }/>
+    <RenderRepositoryList repositories={ repositories } sortMethod={sortMethod} setSortMethod={setSortMethod} />
   )
 }
 
