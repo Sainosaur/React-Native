@@ -1,12 +1,15 @@
 import { View, Text as NativeText, FlatList, StyleSheet } from "react-native"
 import Text from "../CustomComponents/Text"
 import { RepositoryItem } from "./repositoryList"
+import { Button } from "../CustomComponents/Input"
 import theme from "../theme"
 
 import { GET_SPECIFIC_REPOSITORY } from "../../graphql/queries"
 
 import { useParams } from "react-router-native"
 import { useQuery } from "@apollo/client"
+import { useNavigate } from "react-router-native"
+
 
 
 
@@ -43,6 +46,9 @@ const styles = StyleSheet.create({
         paddingLeft: 20
     }, largeSeperator: {
         height: 30
+    }, buttonContainer: {
+        display: "flex",
+        flexDirection: "row"
     }
 })
 const ItemSeparator = () => <View style={styles.separator} />;
@@ -58,7 +64,8 @@ const RenderRepository = ({item}) => {
     )
 }
 
-export const Review = ({review, userReviewPage}) => {
+export const Review = ({review, userReviewPage, mutate, refetch}) => {
+    const navigate = useNavigate()
     const createdAt = new Date(review.createdAt)
     return (
         <View style={styles.review}>
@@ -69,6 +76,19 @@ export const Review = ({review, userReviewPage}) => {
                 <Text heading >{userReviewPage ? review.repository.fullName : review.user.username}</Text>
                 <Text light > Created: {createdAt.toLocaleDateString("en-GB")}</Text>
                 <NativeText style={styles.text}  >{review.text}</NativeText>
+                { userReviewPage ?  <View style={styles.buttonContainer}>
+                    <Button onPress={() => navigate(`/repositories/${review.repository.id}`)} fontSize={15}>View Repository</Button>
+                    <Button fontSize={15} color="#c10101" onPress={() => { 
+                        mutate({variables:{
+                            reviewID: review.id
+                        }
+                        })
+                        refetch()
+                    } 
+                        } >Delete Review</Button>
+                </View> : null}
+            </View>
+            <View>
             </View>
         </View>
     )
@@ -76,7 +96,6 @@ export const Review = ({review, userReviewPage}) => {
 
 const Repository = () => {
     const params = useParams()
-
     const { data } = useQuery(GET_SPECIFIC_REPOSITORY, {
         variables: {
             id: params.repoID

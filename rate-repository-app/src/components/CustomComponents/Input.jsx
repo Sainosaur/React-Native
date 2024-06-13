@@ -9,18 +9,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 5,
         backgroundColor: "white"
-    }, button: {
-        display: "flex",
-        fontFamily: theme.font.fontFamily,
-        textAlign: "center",
-        fontSize: 20,
-        backgroundColor: theme.colors.primary,
-        color: theme.colors.fg,
-        fontWeight: "500",
-        padding: 15,
-        borderRadius: 20,
-        overflow: "hidden"
-
     }
 })
 
@@ -33,5 +21,20 @@ export const TextInput = (props) => {
 }
 
 export const Button = (props) => {
+    const styles = StyleSheet.create({
+        button: {
+            display: "flex",
+            fontFamily: theme.font.fontFamily,
+            textAlign: "center",
+            fontSize: props.fontSize ? props.fontSize : 20,
+            backgroundColor: props.color ? props.color : theme.colors.primary,
+            color: theme.colors.fg,
+            fontWeight: "500",
+            padding: 15,
+            borderRadius: 20,
+            overflow: "hidden"
+    
+        }
+    })
     return <Text style={styles.button} {...props} ></Text>
 }

@@ -3,8 +3,10 @@ import Text from "../CustomComponents/Text"
 import { Review } from "../Views/Repository"
 
 import { ME } from "../../graphql/queries"
+import { DELETE_REVIEW } from "../../graphql/mutations"
 
 import { useQuery } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 
 const styles = StyleSheet.create({
     separator: {
@@ -12,8 +14,10 @@ const styles = StyleSheet.create({
     }
 })
 
+
 const UserReviewList = () => {
-    const { data } = useQuery(ME, {
+    const [mutate] = useMutation(DELETE_REVIEW)
+    const { data, refetch } = useQuery(ME, {
         variables: {
             Reviews: true
         }
@@ -24,7 +28,7 @@ const UserReviewList = () => {
             <FlatList
             data = {renderData}
             ItemSeparatorComponent={<View style={styles.separator} />}
-            renderItem = {({item}) => <Review review={item} userReviewPage />}
+            renderItem = {({item}) => <Review review={item} userReviewPage mutate={mutate} refetch={refetch} />}
             />
         )
     }

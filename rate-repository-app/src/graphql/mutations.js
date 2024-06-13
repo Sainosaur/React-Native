@@ -23,5 +23,11 @@ mutation ($user: CreateUserInput) {
         username
     }
 }
+`
+
+export const DELETE_REVIEW = gql`
+mutation ($reviewID: ID!) {
+    deleteReview(id: $reviewID)
+}
 
 `
