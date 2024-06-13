@@ -58,7 +58,7 @@ const RenderRepository = ({item}) => {
     )
 }
 
-const Review = ({review}) => {
+export const Review = ({review, userReviewPage}) => {
     const createdAt = new Date(review.createdAt)
     return (
         <View style={styles.review}>
@@ -66,7 +66,7 @@ const Review = ({review}) => {
                 <NativeText style={styles.ratingText}>{review.rating}</NativeText>
             </View>
             <View style={styles.reviewContent}>
-                <Text heading >{review.user.username}</Text>
+                <Text heading >{userReviewPage ? review.repository.fullName : review.user.username}</Text>
                 <Text light > Created: {createdAt.toLocaleDateString("en-GB")}</Text>
                 <NativeText style={styles.text}  >{review.text}</NativeText>
             </View>
@@ -89,7 +89,8 @@ const Repository = () => {
         <FlatList 
         style={styles.reviewsContainer} 
         data={reviews} 
-        ItemSeparatorComponent={ItemSeparator} renderItem={({ item }) => <Review review={item} />}
+        ItemSeparatorComponent={ItemSeparator} 
+        renderItem={({ item }) => <Review review={item} />}
         ListHeaderComponent={() => <RenderRepository item={item} />} 
         ListFooterComponent={() => <View style={styles.largeSeperator} />} />
         )

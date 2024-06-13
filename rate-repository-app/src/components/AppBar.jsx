@@ -68,6 +68,7 @@ const AppBar = () => {
       {data.me ? null : <AppBarTab name="Sign Up" address="/signup" />}
       <AppBarTab name="Repositories" address="/"/>
       {data.me ? <AppBarTab name="Review" address="/create" /> : null}
+      {data.me ? <AppBarTab name="My reviews" address="/myreviews" /> : null}
     </ScrollView>
     )
   } else {
