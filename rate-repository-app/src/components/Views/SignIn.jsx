@@ -46,7 +46,7 @@ const LargeSeperator = () => {
 
 
 export const RenderSignIn = ({onSubmit, error}) => {
-
+    const navigate = useNavigate()
     const formik = useFormik({
         initialValues,
         validationSchema,
@@ -68,6 +68,9 @@ export const RenderSignIn = ({onSubmit, error}) => {
             <Pressable>
                 <Button chip onPress={() => formik.handleSubmit()} testID="SubmitBtn" >Sign In</Button>
             </Pressable>
+            <Seperator />
+            <Text>No account yet?</Text>
+            <Button onPress={() => navigate()}>Sign Up</Button>
         </View>
     )
 }

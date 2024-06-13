@@ -3,10 +3,14 @@ import theme from '../theme'
 import Text from "../CustomComponents/Text"
 import { Button } from "../CustomComponents/Input"
 import { Picker } from '@react-native-picker/picker';
+import { Searchbar } from "react-native-paper"
+
+import * as React from "react"
 
 import useRepositories from '../../hooks/useRepositories'
 import { useNavigate } from "react-router-native"
 import { useState } from "react"
+import { useDebounce } from "use-debounce"
 
 import * as Linking from "expo-linking"
 
@@ -43,6 +47,10 @@ const styles = StyleSheet.create({
   }, modal: {
     width: 25,
     height: 70
+  }, searchBar: {
+    backgroundColor: theme.colors.fg,
+    height: 70,
+    borderRadius: 0
   }
 });
 
@@ -104,11 +112,21 @@ const Header = ({ sortMethod, setSortMethod }) => {
   )
 }
 
-const IOSHeader = ({ sortMethod, setSortMethod }) => {
+const AndroidHeader = ({ sortMethod, setSortMethod, search, setSearch }) => {
+  return (
+    <View>
+      <SearchBar search={search} setSearch={setSearch} />
+      <Header sortMethod={sortMethod} setSortMethod={setSortMethod} />
+    </View>
+  )
+}
+
+const IOSHeader = ({ sortMethod, setSortMethod, search, setSearch }) => {
   const [open, setOpen] = useState(false)
 
   return (
     <View>
+      <SearchBar search={search} setSearch={setSearch} />
       <Text style={styles.card} onPress={() => setOpen(true)}>
         Sort By: {labels[sortMethod]}
       </Text>
@@ -129,38 +147,56 @@ const IOSHeader = ({ sortMethod, setSortMethod }) => {
   )
 }
 
-export const RenderRepositoryList = ({ repositories, sortMethod, setSortMethod }) => { 
-  const renderData = repositories ? repositories.edges.map((edge) => edge.node) : null
+const SearchBar = ({search, setSearch}) => {
+  return (
+    <View style={styles.seachBarContainer}>
+      <Searchbar elevation="3" style={styles.searchBar} value={search} onChangeText={(value) => setSearch(value)} />
+    </View>
+  )
+}
 
-  if (renderData) {
+class RenderRepositoryList extends React.Component  { 
+  renderHeader = () => {
+    const props = this.props
+
     return (
-        <FlatList
-        data={renderData}
-        ListHeaderComponent={() => Platform.select({
-          android: <Header sortMethod={sortMethod} setSortMethod={setSortMethod} />,
-          ios: <IOSHeader sortMethod={sortMethod} setSortMethod={setSortMethod} />
-        })}
-        ItemSeparatorComponent={ItemSeparator}
-        ListFooterComponent={() => <View style={styles.largeSeparator} />}
-        renderItem={({item}) => <RepositoryItem item={item}/>}
-      />
-    );
-  } else {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
+      Platform.select({
+      android: <AndroidHeader sortMethod={props.sortMethod} setSortMethod={props.setSortMethod} search={props.search} setSearch={props.setSearch} />,
+      ios: <IOSHeader sortMethod={props.sortMethod} setSortMethod={props.setSortMethod} search={props.search} setSearch={props.setSearch} />
+    })
     )
   }
-};
+  render() {
+    const props = this.props
+    const renderData = props.repositories ? props.repositories.edges.map((edge) => edge.node) : null
+    if (renderData) {
+      return (
+          <FlatList
+          data={renderData}
+          ListHeaderComponent={this.renderHeader}
+          ListEmptyComponent= {
+            <View>
+            <Text>Repository Not found...</Text>
+          </View>
+          }
+          ItemSeparatorComponent={ItemSeparator}
+          ListFooterComponent={() => <View style={styles.largeSeparator} />}
+          renderItem={({item}) => <RepositoryItem item={item}/>}
+        />
+      );
+    }
+  }
+}
 
 const RepositoryList = () => {
   const [ sortMethod, setSortMethod ] = useState("LatestRepo")
+  const [ search, setSearch ] = useState("")
+  const [ searchValue ] = useDebounce(search, 500)
 
-  const { repositories } = useRepositories(sortMethod)
+  const { repositories } = useRepositories(sortMethod, searchValue)
 
   return (
-    <RenderRepositoryList repositories={ repositories } sortMethod={sortMethod} setSortMethod={setSortMethod} />
+    <RenderRepositoryList repositories={ repositories } sortMethod={sortMethod} setSortMethod={setSortMethod} search={search} setSearch={setSearch} />
   )
 }
 

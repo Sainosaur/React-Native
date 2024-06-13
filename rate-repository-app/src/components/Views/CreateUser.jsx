@@ -56,6 +56,8 @@ const userSchema = yup.object({
 })
 
 const RenderCreateUser = ({ onSubmit }) => {
+    const navigate = useNavigate()
+
     const formik = useFormik({
         initialValues,
         validationSchema: userSchema,
@@ -77,6 +79,9 @@ const RenderCreateUser = ({ onSubmit }) => {
             {formik.touched.confirmPassword && formik.errors.confirmPassword ? <Text error>{formik.errors.confirmPassword}</Text> : null}
             <Seperator />
             <Button onPress={formik.handleSubmit}>Sign Up</Button>
+            <Seperator />
+            <Text>Already have an account?</Text>
+            <Button onPress={() => navigate("/signin")}>Sign In</Button>
         </View>
 
     )
