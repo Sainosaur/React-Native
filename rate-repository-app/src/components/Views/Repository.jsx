@@ -1,4 +1,4 @@
-import { View, Text as NativeText, FlatList, StyleSheet } from "react-native"
+import { View, Text as NativeText, FlatList, StyleSheet, Platform } from "react-native"
 import Text from "../CustomComponents/Text"
 import { RepositoryItem } from "./repositoryList"
 import { Button } from "../CustomComponents/Input"
@@ -45,7 +45,10 @@ const styles = StyleSheet.create({
     }, reviewContent: {
         paddingLeft: 20
     }, largeSeperator: {
-        height: 30
+        height: Platform.select({
+            android: 30,
+            ios: 70
+        })
     }, buttonContainer: {
         display: "flex",
         flexDirection: "row"
@@ -94,24 +97,48 @@ export const Review = ({review, userReviewPage, mutate, refetch}) => {
     )
 }
 
+const Footer = ({endOfPage}) => {
+    return (
+        <View>
+        {endOfPage ? <Text center light>You have reached the end...</Text> : null}
+        <View style={styles.largeSeperator} />
+        </View>
+    )
+}
+
 const Repository = () => {
     const params = useParams()
-    const { data } = useQuery(GET_SPECIFIC_REPOSITORY, {
+    const { data, fetchMore } = useQuery(GET_SPECIFIC_REPOSITORY, {
         variables: {
-            id: params.repoID
+            id: params.repoID,
+            first: 5
         }, fetchPolicy: "cache-and-network"
     })
+    const endReached = () => {
+        if (data.repository.reviews.pageInfo.hasNextPage) {
+            fetchMore({
+                variables: {
+                    after: data.repository.reviews.pageInfo.endCursor
+                }
+            })
+        }
+
+    }
+
     if (data) {
         const item = data.repository
         const reviews = data.repository.reviews.edges.map(review => review.node)
         return (
-        <FlatList 
-        style={styles.reviewsContainer} 
-        data={reviews} 
-        ItemSeparatorComponent={ItemSeparator} 
-        renderItem={({ item }) => <Review review={item} />}
-        ListHeaderComponent={() => <RenderRepository item={item} />} 
-        ListFooterComponent={() => <View style={styles.largeSeperator} />} />
+            <FlatList 
+            style={styles.reviewsContainer} 
+            data={reviews} 
+            ItemSeparatorComponent={ItemSeparator} 
+            renderItem={({ item }) => <Review review={item} />}
+            ListHeaderComponent={() => <RenderRepository item={item} />} 
+            ListFooterComponent={() => <Footer endOfPage={!data.repository.reviews.pageInfo.hasNextPage} />}
+            onEndReached={endReached}
+            onEndReachedThreshold={0}
+            />
         )
     }
 
